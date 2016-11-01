@@ -1,0 +1,42 @@
+<?php echo $this->fetch('head.phtml'); ?>
+<header id="header" class="">
+    <h1>Generate a new wallet</h1>
+</header>
+<div>
+    <div class="form-group">
+        <label for="public_key">Public key address</label>
+        <input name="public_key" class="form-control" id="public_key" type="text" readonly="readonly"/>
+    </div>
+    <div class="form-group">
+        <label for="private_key">Private Key</label>
+        <input name="private_key" class="form-control" id="private_key" type="text" readonly="readonly"/>
+    </div>
+
+    <button type="button" id="generate_address" class="btn btn-info">Generate Address</button>
+    <button type="button" id="export_address" class="btn btn-success disabled">Export Address</button>
+    <button type="button" id="scan_key" class="btn btn-success disabled">Scan private key</button>
+    <div id="download"></div>
+    <div id="qrcodes" class="hidden">
+        <div class="container">
+            <span>Your address</span>
+            <div id="address"></div>
+        </div>
+        <div class="container">
+            <span>Your private key</span>
+            <div id="scan"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    Wallet.Address.Generator.init({
+        generateBtnId: "#generate_address",
+        exportBtnId: "#export_address",
+        scanBtnId: "#scan_key",
+        privateKeyId: "#private_key",
+        publicKeyId: "#public_key",
+        qrcodesId: "#qrcodes"
+    });
+
+</script>

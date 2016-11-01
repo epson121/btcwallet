@@ -43,7 +43,7 @@ class Base
     }
 
     /**
-     * @param $className
+     * @param $classNamew
      * @return \Models\Base
      */
     public function getModel($className) {
