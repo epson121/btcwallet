@@ -53,10 +53,8 @@ div {
 }
 .nav li {
   font-family: 'Oswald', sans-serif;
-  font-size: 0.5em;
-  line-height: 40px;
-  height: 40px;
-  border-bottom: 1px solid #888;
+  font-size: 1em;
+  text-decoration: none;
 }
  
 .nav a {
@@ -73,16 +71,14 @@ div {
  
 @media screen and (min-width: 600px) {
   .nav li {
-    width: 120px;
+    margin-left: 10px;
     border-bottom: none;
-    height: 50px;
-    line-height: 50px;
     font-size: 1.1em;
+    padding: 0;
   }
  
   .nav li {
     display: inline-block;
-    margin-right: -4px;
   }
  
 }

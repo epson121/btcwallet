@@ -1,45 +1,31 @@
-<div>
-    <form>
-        <div class="form-group">
-            <div id="qrcode"></div>
-        </div>
-        <div class="form-group">
-            <input class="form-control" id="qrcode_address" type="text" value="" placeholder="To Address" />
-        </div>
-        <div class="form-group">
-            <input class="form-control" id="qrcode_amount" type="text" value="" placeholder="Amount in Satoshis">
-        </div>
-        <div class="form-group">
-            <input class="form-control" id="qrcode_label" type="text" value="" placeholder="Label">
-        </div>
-        <div class="form-group">
-            <input class="form-control" id="qrcode_message" type="text" value="" placeholder="Message">
-        </div>
+<?php echo $this->fetch('head.phtml'); ?>
+<?php echo $this->fetch('header.phtml'); ?>
 
-        <button type="button" id="generate_qrcode" class="btn btn-info">Generate QRCode</button>
-    </form>
+<h1>Create a new transaction</h1>
+<div>
+    <div class="form-group">
+        <input class="form-control" id="qrcode_address" type="text" value="" placeholder="To Address" />
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="qrcode_amount" type="text" value="" placeholder="Amount in Satoshis">
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="qrcode_label" type="text" value="" placeholder="Label">
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="qrcode_message" type="text" value="" placeholder="Message">
+    </div>
+
+    <button type="button" id="generate_qrcode" class="btn btn-info">Generate QRCode</button>
+    <div class="form-group">
+        <div id="qrcode"></div>
+    </div>
 </div>
 
 <script type="text/javascript">
 
-    $('#generate_qrcode').on('click', function(e) {
-        var address = $('#qrcode_address').val();
-        var amount = $('#qrcode_amount').val();
-        var label = $('#qrcode_label').val();
-        var message = $('#qrcode_message').val();
-
-        var msg = "bitcoin:" + address + "?amount=" + amount + "&label=" + label + "&message=" + message;
-        console.log(msg);
-        // new QRCode(document.getElementById("qrcode"), msg);
-        var qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: msg,
-            width: 128,
-            height: 128,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-
+    Wallet.Transaction.Create.init({
+        'submitBtnId' : "#generate_qrcode"
     });
 
 </script>

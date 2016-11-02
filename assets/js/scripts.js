@@ -80,3 +80,36 @@ Wallet.Address.Generator = {
         }
     }
 }
+
+Wallet.Transaction = {};
+Wallet.Transaction.Create = {
+    init: function(config) {
+        var self = this;
+        this.submitBtnId =  config.submitBtnId;
+
+        $(this.submitBtnId).on('click', function(e) {
+            self.create();
+        });
+    },
+
+    create: function() {
+        var address = $('#qrcode_address').val();
+        var amount = $('#qrcode_amount').val();
+        var label = $('#qrcode_label').val();
+        var message = $('#qrcode_message').val();
+
+        var msg = "bitcoin:" + address + "?amount=" + amount + "&label=" + label + "&message=" + message;
+
+        // new QRCode(document.getElementById("qrcode"), msg);
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: msg,
+            width: 128,
+            height: 128,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    }
+
+
+}

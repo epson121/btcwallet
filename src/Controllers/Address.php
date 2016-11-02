@@ -1,7 +1,4 @@
 <?php
-/**
- * Date: 31.10.16.
- */
 
 namespace Controllers;
 

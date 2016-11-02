@@ -1,3 +1,3 @@
 #Wallet
 
-Bitcoin wallet generator (client-side, using bitcoinjs lib)
+Bitcoin address generator (client-side, using bitcoinjs lib)
