@@ -1,3 +1,5 @@
 #Wallet
 
-Bitcoin address generator (client-side, using bitcoinjs lib)
+A collection of bitcoin features 
+ - generate and sweep address
+ - create and scan transaction
