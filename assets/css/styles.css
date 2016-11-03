@@ -82,3 +82,11 @@ div {
   }
  
 }
+
+#message.success {
+  color: green;
+}
+
+#message.error {
+  color: red;
+}

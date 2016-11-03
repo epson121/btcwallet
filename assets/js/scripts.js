@@ -86,6 +86,7 @@ Wallet.Transaction.Create = {
     init: function(config) {
         var self = this;
         this.submitBtnId =  config.submitBtnId;
+        this.msgElement = $('#message');
 
         $(this.submitBtnId).on('click', function(e) {
             self.create();
@@ -98,17 +99,39 @@ Wallet.Transaction.Create = {
         var label = $('#qrcode_label').val();
         var message = $('#qrcode_message').val();
 
+        if (!address || !amount) {
+            this.msgElement.removeClass();
+            this.msgElement.addClass('error');
+            this.msgElement.html('Address and amount are required');
+            return;
+        }
+
+        if (isNaN(amount)) {
+            this.msgElement.removeClass();
+            this.msgElement.addClass('error');
+            this.msgElement.html('Amount has to be a number');
+            return;   
+        }
+
         var msg = "bitcoin:" + address + "?amount=" + amount + "&label=" + label + "&message=" + message;
 
-        // new QRCode(document.getElementById("qrcode"), msg);
-        var qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: msg,
-            width: 128,
-            height: 128,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
+        console.log(msg);
+        if (!this.qrcode) {
+            this.qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: msg,
+                width: 128,
+                height: 128,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        } else {
+            this.qrcode.makeCode(msg)
+        }
+
+        this.msgElement.removeClass();
+        this.msgElement.addClass('success');
+        this.msgElement.html('All good');
     }
 
 
