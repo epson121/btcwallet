@@ -90,3 +90,7 @@ div {
 #message.error {
   color: red;
 }
+
+#message.warning {
+  color: orange;
+}

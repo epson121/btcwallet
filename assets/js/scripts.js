@@ -1,7 +1,30 @@
-Wallet = {};
+BTC = {};
 
-Wallet.Address = {};
-Wallet.Address.Generator = {
+BTC.Message = {
+
+    error : function(msg) {
+        this.update(msg, 'error');
+    },
+
+    success: function(msg) {
+        this.update(msg, 'success');
+    },
+
+    warning: function(msg) {
+        this.update(msg, 'warning');
+    },
+
+    update: function(msg, className) {
+        var el = $('#message');
+        el.removeClass();
+        el.addClass(className);
+        el.html(msg);
+    },
+
+}
+
+BTC.Address = {};
+BTC.Address.Generator = {
 
     init: function(options) {
         self = this;
@@ -81,13 +104,12 @@ Wallet.Address.Generator = {
     }
 }
 
-Wallet.Transaction = {};
-Wallet.Transaction.Create = {
+BTC.Transaction = {};
+BTC.Transaction.Create = {
     init: function(config) {
         var self = this;
         this.submitBtnId =  config.submitBtnId;
-        this.msgElement = $('#message');
-
+        console.log(this.msg);
         $(this.submitBtnId).on('click', function(e) {
             self.create();
         });
@@ -100,22 +122,17 @@ Wallet.Transaction.Create = {
         var message = $('#qrcode_message').val();
 
         if (!address || !amount) {
-            this.msgElement.removeClass();
-            this.msgElement.addClass('error');
-            this.msgElement.html('Address and amount are required');
+            BTC.Message.error('Address and amount are required');
             return;
         }
 
         if (isNaN(amount)) {
-            this.msgElement.removeClass();
-            this.msgElement.addClass('error');
-            this.msgElement.html('Amount has to be a number');
+            BTC.Message.error('Amount has to be a number');
             return;   
         }
 
         var msg = "bitcoin:" + address + "?amount=" + amount + "&label=" + label + "&message=" + message;
 
-        console.log(msg);
         if (!this.qrcode) {
             this.qrcode = new QRCode(document.getElementById("qrcode"), {
                 text: msg,
@@ -129,9 +146,48 @@ Wallet.Transaction.Create = {
             this.qrcode.makeCode(msg)
         }
 
-        this.msgElement.removeClass();
-        this.msgElement.addClass('success');
-        this.msgElement.html('All good');
+        BTC.Message.success('All good');
+    }
+}
+
+BTC.HDWallet = {
+    init: function(config) {
+        var self = this;
+        this.mnemonic = new Mnemonic("english");
+        this.mnemonicElem = $('#hd_mnemonic');
+        this.passphraseElem = $('#hd_passphrase');
+        this.seedElem = $('#hd_seed');
+
+        $(config.generateBtnId).on('click', function(e) {
+            if (!self.mnemonicElem.val()) {
+                self.random();
+            } else {
+                self.manual();
+            }
+        });
+    },
+
+    random: function() {
+        this.words = this.mnemonic.generate();
+        this.seed = this.mnemonic.toSeed(this.words, this.passphraseElem.val());
+        this.mnemonicElem.val(this.words);
+        this.seedElem.val(this.seed);
+        if (!this.passphraseElem.val()) {
+            BTC.Message.warning('You should use passphrase for your keys!');
+        }
+    },
+
+    manual: function() {
+        var words = this.mnemonicElem.val();
+        if (!words || !this.mnemonic.check(words)) {
+            BTC.Message.error('Mnemonic is not valid');
+        } else {
+            this.seed = this.mnemonic.toSeed(words, this.passphraseElem.val());
+            this.seedElem.val(this.seed);
+            if (!this.passphraseElem.val()) {
+                BTC.Message.warning('You should use passphrase for your keys!');
+            }
+        }
     }
 
 

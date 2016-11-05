@@ -1,0 +1,32 @@
+<?php echo $this->fetch('head.phtml'); ?>
+<?php echo $this->fetch('header.phtml'); ?>
+
+<h1>Generate HD Wallet</h1>
+<div>
+    <span id="message"></span>
+    <div class="form-group">
+        <label>Passphrase (case sensitive)</label>
+        <input class="form-control" id="hd_passphrase" value="" />
+    </div>
+    <div class="form-group">
+        <label>Mnemonic</label>
+        <input class="form-control" id="hd_mnemonic" type="text" value="" />
+    </div>
+    <div class="form-group">
+        <label>Seed</label>
+        <input class="form-control" id="hd_seed" type="text" value="" readonly="readonly"/>
+    </div>
+
+    <button type="button" id="hd_generate" class="btn btn-info">Enter/Generate Mnemonic</button>
+    <div class="form-group">
+        <div id="qrcode"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    BTC.HDWallet.init({
+        generateBtnId : "#hd_generate"
+    });
+
+</script>
