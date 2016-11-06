@@ -1,32 +1,72 @@
 <?php echo $this->fetch('head.phtml'); ?>
 <?php echo $this->fetch('header.phtml'); ?>
 
-<h1>Generate HD Wallet</h1>
-<div>
+<h2>Generate HD Wallet</h2>
     <span id="message"></span>
-    <div class="form-group">
-        <label>Passphrase (case sensitive)</label>
-        <input class="form-control" id="hd_passphrase" value="" />
-    </div>
-    <div class="form-group">
-        <label>Mnemonic</label>
-        <input class="form-control" id="hd_mnemonic" type="text" value="" />
-    </div>
-    <div class="form-group">
-        <label>Seed</label>
-        <input class="form-control" id="hd_seed" type="text" value="" readonly="readonly"/>
+    <div>
+        <div class="form-group">
+            <label>Passphrase (case sensitive)</label>
+            <input class="form-control" id="hd_passphrase" value="" />
+        </div>
+        <div class="form-group">
+            <label>Mnemonic</label>
+            <input class="form-control" id="hd_mnemonic" type="text" value="" />
+        </div>
+        <div class="form-group">
+            <label>Seed</label>
+            <input class="form-control" id="hd_seed" type="text" value="" readonly="readonly"/>
+        </div>
+
+        <button type="button" id="hd_generate" class="btn btn-info">Get Wallet</button>
     </div>
 
-    <button type="button" id="hd_generate" class="btn btn-info">Enter/Generate Mnemonic</button>
-    <div class="form-group">
-        <div id="qrcode"></div>
+    <div id="wallet" class="hidden">
+        <h2>Wallet</h2>
+        <div>
+            <div class="master-data">
+                <h3>Master data</h3>
+                <div class="form-group">
+                    <label>Bip32 extended private key</label>
+                    <input class="form-control" id="hd_master_privatekey" value="" readonly="readonly" />
+                </div>
+                <div class="form-group">
+                    <label>Bip32 public key</label>
+                    <input class="form-control" id="hd_master_publickey" value="" readonly="readonly" />
+                </div>
+                <div class="form-group">
+                    <label>Master Address</label>
+                    <input class="form-control" id="hd_master_address" value="" readonly="readonly" />
+                </div>
+            </div>
+            <div class="derivation-data">
+                <h3>Key Derivation</h3>
+                <div class="form-group">
+                    <label>Derivation path</label>
+                    <input class="form-control" id="hd_derivation_path" value="m" />
+                </div>
+                <button type="button" id="derive_keys" class="btn btn-info">Derive keys</button>
+                <div class="form-group">
+                    <label>Derived private key</label>
+                    <input class="form-control" id="derived_privatekey" value="" readonly="readonly" />
+                </div>
+                <div class="form-group">
+                    <label>Derived public key</label>
+                    <input class="form-control" id="derived_publickey" value="" readonly="readonly" />
+                </div>
+                <div class="form-group">
+                    <label>Derived address</label>
+                    <input class="form-control" id="derived_address" value="" readonly="readonly" />
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    
 
 <script type="text/javascript">
 
     BTC.HDWallet.init({
-        generateBtnId : "#hd_generate"
+        generateBtnId : "#hd_generate",
+        deriveBtnId : "#derive_keys"
     });
 
 </script>

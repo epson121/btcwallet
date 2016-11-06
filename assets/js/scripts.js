@@ -20,7 +20,6 @@ BTC.Message = {
         el.addClass(className);
         el.html(msg);
     },
-
 }
 
 BTC.Address = {};
@@ -150,6 +149,7 @@ BTC.Transaction.Create = {
     }
 }
 
+
 BTC.HDWallet = {
     init: function(config) {
         var self = this;
@@ -157,13 +157,33 @@ BTC.HDWallet = {
         this.mnemonicElem = $('#hd_mnemonic');
         this.passphraseElem = $('#hd_passphrase');
         this.seedElem = $('#hd_seed');
+        this.walletElem = $('#wallet');
+        this.wallet = null;
 
         $(config.generateBtnId).on('click', function(e) {
+            var result = false;
             if (!self.mnemonicElem.val()) {
-                self.random();
+                result = self.random();
             } else {
-                self.manual();
+                result = self.manual();
             }
+
+            if (result) {
+                self.wallet = self.getWallet();
+            }
+
+        });
+
+        $(config.deriveBtnId).on('click', function(e) {
+            
+            if (!self.wallet) {
+                BTC.Message.error('Get a wallet!');
+                return false;
+            }
+
+            self.derive();
+
+
         });
     },
 
@@ -175,20 +195,41 @@ BTC.HDWallet = {
         if (!this.passphraseElem.val()) {
             BTC.Message.warning('You should use passphrase for your keys!');
         }
+        console.log(this.walletElem);
+        this.walletElem.removeClass('hidden');
+        return true;
     },
 
     manual: function() {
         var words = this.mnemonicElem.val();
         if (!words || !this.mnemonic.check(words)) {
             BTC.Message.error('Mnemonic is not valid');
+            return false;
         } else {
             this.seed = this.mnemonic.toSeed(words, this.passphraseElem.val());
             this.seedElem.val(this.seed);
             if (!this.passphraseElem.val()) {
                 BTC.Message.warning('You should use passphrase for your keys!');
             }
+            this.walletElem.removeClass('hidden');
         }
+        return true;
+    },
+
+    getWallet: function() {
+        var hdNode = bitcoin.HDNode.fromSeedHex(this.seed);
+        $('#hd_master_address').val(hdNode.getAddress());
+        $('#hd_master_privatekey').val(hdNode.toBase58());
+        console.log(hdNode.derive(0));
+        $('#hd_master_publickey').val(hdNode.neutered().toBase58());
+        return hdNode;
+    },
+
+    derive: function() {
+        var path = $('#hd_derivation_path').val();
+        var newHd = this.wallet.derivePath(path);
+        $('#derived_privatekey').val(newHd.toBase58());
+        $('#derived_publickey').val(newHd.neutered().toBase58());
+        $('#derived_address').val(newHd.getAddress());
     }
-
-
 }
