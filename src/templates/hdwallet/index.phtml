@@ -17,7 +17,7 @@
             <input class="form-control" id="hd_seed" type="text" value="" readonly="readonly"/>
         </div>
 
-        <button type="button" id="hd_generate" class="btn btn-info">Get Wallet</button>
+        <button type="button" id="hd_generate" class="btn btn-info">Get Wallet (Random or from mnemonic)</button>
     </div>
 
     <div id="wallet" class="hidden">
@@ -42,12 +42,18 @@
                 <h3>Key Derivation</h3>
                 <div class="form-group">
                     <label>Derivation path</label>
+                    <div>
+                        m (master node) / (0..) wallet  / (0..) wallet chains
+                        example: m/0/1
+                    </div>
                     <input class="form-control" id="hd_derivation_path" value="m" />
                 </div>
                 <button type="button" id="derive_keys" class="btn btn-info">Derive keys</button>
                 <div class="form-group">
                     <label>Derived private key</label>
                     <input class="form-control" id="derived_privatekey" value="" readonly="readonly" />
+                    <label>Private key (WIF)</label>
+                    <input class="form-control" id="derived_privatekey_wif" value="" readonly="readonly" />
                 </div>
                 <div class="form-group">
                     <label>Derived public key</label>

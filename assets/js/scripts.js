@@ -228,7 +228,11 @@ BTC.HDWallet = {
     derive: function() {
         var path = $('#hd_derivation_path').val();
         var newHd = this.wallet.derivePath(path);
+        if (!newHd) {
+            BTC.Message.error('Check your path');
+        }
         $('#derived_privatekey').val(newHd.toBase58());
+        $('#derived_privatekey_wif').val(newHd.keyPair.toWIF());
         $('#derived_publickey').val(newHd.neutered().toBase58());
         $('#derived_address').val(newHd.getAddress());
     }
