@@ -175,7 +175,7 @@ BTC.HDWallet = {
         });
 
         $(config.deriveBtnId).on('click', function(e) {
-            
+
             if (!self.wallet) {
                 BTC.Message.error('Get a wallet!');
                 return false;
@@ -217,7 +217,7 @@ BTC.HDWallet = {
     },
 
     getWallet: function() {
-        var hdNode = bitcoin.HDNode.fromSeedHex(this.seed);
+        var hdNode = bitcoin.HDNode.fromSeedHex(this.seed, bitcoin.networks[$('#network').val()]);
         $('#hd_master_address').val(hdNode.getAddress());
         $('#hd_master_privatekey').val(hdNode.toBase58());
         console.log(hdNode.derive(0));
